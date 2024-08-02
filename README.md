@@ -1,2 +1,1 @@
-# CDC
-CDC: Chiquitano Data Cube
+# CDC: Chiquitano Data Cube

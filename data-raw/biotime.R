@@ -26,7 +26,7 @@ head(biotime_deu)
 save(biotime_deu, file="data/biotime_deu.rda", compress="xz")
 
 #' Get GADM data of Germany
-deu <- raster::getData("GADM", country="DEU", level=1, path="/media/matt/Data/Documents/Wissenschaft/Data/GADM")
+deu <- geodata::gadm(country="BOL", level=1, path=getwd())
 
 #' Plot locations of data entries
 library(sp)

@@ -1,0 +1,24 @@
+Package: CDC
+Type: Package
+Title: Chiquitania Data Cube
+Version: 0.0.1
+Date: 2024-08-01
+Authors@R: 
+    person("MattB-SF", email = "matthias.biber@senckenberg.de", role = c("cre", "aut"))
+Maintainer: MattB-SF <matthias.biber@senckenberg.de>
+Description: R package to access various data sources, i.e. elevation, climate and land-use data, for the Chiquitania region in Bolivia. 
+Depends: R (>= 4.3)
+Suggests: dplyr, sf, sp, knitr, rmarkdown, raster, ggplot2, data.table, dtplyr,
+    lubridate, patchwork, tidyverse, zoo, scales, tidyr, taxize, 
+    magrittr, GGally, scico, vroom, ggstatsplot, vegan, ggcorrplot,
+    terra, remotes, caret, mecofun, ggthemes, ggsci, ggspatial, DBI, RSQLite
+License: file LICENSE
+LazyData: TRUE
+LazyDataCompression: xz
+Encoding: UTF-8
+VignetteBuilder: knitr
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Author: MattB-SF [cre, aut]
+URL: https://github.com/MattB-SF/CDC
+BugReports: https://github.com/MattB-SF/CDC/issues

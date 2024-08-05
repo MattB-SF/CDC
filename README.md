@@ -1,4 +1,4 @@
-CDC: Chiquitania Data Cube
+CDC: Chiquitos Data Cube
 ================
 
 ## Installation
@@ -36,15 +36,14 @@ library(CDC)
 
 ## Shiny app
 
-You can start the baVDC Shiny app, by:
+You can start the CDC Shiny app, by:
 
 ``` r
 library(shiny)
 runApp()
 ```
 
-**Please note:** The app currently only supports the `alt_bavtk4tel`
-dataset.
+**Please note:** The app currently only supports the `alt_chi` dataset.
 
 ## Datasets
 

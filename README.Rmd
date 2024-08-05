@@ -1,5 +1,5 @@
 ---
-title: "CDC: Chiquitania Data Cube"
+title: "CDC: Chiquitos Data Cube"
 output: github_document
 editor_options: 
   chunk_output_type: console
@@ -42,14 +42,14 @@ library(CDC)
 
 ## Shiny app
 
-You can start the baVDC Shiny app, by:
+You can start the CDC Shiny app, by:
 
 ```{r, eval=FALSE}
 library(shiny)
 runApp()
 ```
 
-**Please note:** The app currently only supports the `alt_bavtk4tel` dataset.
+**Please note:** The app currently only supports the `alt_chi` dataset.
 
 ## Datasets
 
@@ -57,81 +57,48 @@ The individual datasets can then be loaded, by:
 
 ```{r, eval=F, echo=F}
 # Elevation & Terrain (SRTM)
-data("alt_bav_tk4tel")
+data("alt_chi")
 
-# Outline of Bavaria (GADM)
-data("bavaria")
+# Outline of Chiquitos (GADM)
+data("chiquitos")
 
-# BayWRF monthly climate data
-load(system.file("extdata", "baywrf_pr_bav.rda", package = "bavDC"))
-load(system.file("extdata", "baywrf_tas_bav.rda", package = "bavDC"))
-load(system.file("extdata", "baywrf_tasmin_bav.rda", package = "bavDC"))
-load(system.file("extdata", "baywrf_tasmax_bav.rda", package = "bavDC"))
-
-# BioTime data for Germany
-data("biotime_deu")
+# BioTime data for Bolivia
+data("biotime_bol")
 
 # BirdLife, IUCN and GARD range data
-data("amphibians_bav")
-data("bird_bav")
-data("gard_reptiles_bav")
-load(system.file("extdata", "mammals_bav.rda", package = "bavDC"))
-data("odonata_bav")
-data("reptiles_bav")
-
-# Bird range data from the LFU
-data("bird_bva_shape") # sf-object
-data("bird_bva_shape_tk4tel") #gridded
-
-# Bird and Odonata Atlas data
-data("aves_tk4tel")
-data("odonata_tk4tel")
+data("amphibians_bol")
+data("bird_bol")
+data("gard_reptiles_bol")
+data("mammals_bol")
+data("odonata_bol")
+data("reptiles_bol")
 
 # Carbon stock data
-data("carbon_bav")
+data("carbon_chi")
 
 # CCI land cover data
-data("cci_bav_tk4tel")
+data("cci_chi")
 
 # Chelsa climate data
-data("chelsa_bav_tk4tel")
-
-# Euro-cordex climate simulations
-data("cordex_bioclim_bav_tk4tel")
-data("cordex_bioclim_bav")
-load(system.file("extdata", "cordex_prAdjust_bav.rda", package = "bavDC"))
-load(system.file("extdata", "cordex_tasminAdjust_bav.rda", package = "bavDC"))
-load(system.file("extdata", "cordex_tasmaxAdjust_bav.rda", package = "bavDC"))
-
-#The analysis of all monthly Euro-Cordex climate scenarios can be found here: https://raw.githubusercontent.com/RS-eco/bavDC/main/vignettes/bavaria-eurocordex.html
-
-#And the corresponding .Rmd-file is available from here: https://raw.githubusercontent.com/RS-eco/bavDC/main/vignettes/bavaria-eurocordex.Rmd
+data("chelsa_chi")
 
 # Corine land-cover and land cover change
-data("corine_cha_bav_tk4tel") # Land-cover change
-data("corine_cha_bav")
-data("corine_cha_perc_bav")
-data("corine_lc_bav_tk4tel") # Land cover
-data("corine_lc_bav") # Corine Land cover data at 100 x 100 m resolution
-data("corine_lc_perc_bav") # Corine land cover percentage data at 1 x 1 km resolution
+data("corine_cha_chi") # Land-cover change
+data("corine_cha_chi")
+data("corine_cha_perc_chi")
+data("corine_lc_chi") # Corine Land cover data at 100 x 100 m resolution
+data("corine_lc_perc_chi") # Corine land cover percentage data at 1 x 1 km resolution
 
-# Gridded population data for Bavaria at 1km resolution
-data("bav_pop_1km")
+# Gridded population data for Bolivia at 1km resolution
+data("bol_pop_1km")
 
-# Diva shapefiles for Germany
-data("diva_cover_deu") # Land-cover data
-data("diva_pop_deu") # Population data
-data("diva_rails_deu") # Railway tracks
-data("diva_roads_deu") # Roads
-data("diva_water_areas_deu") # Lakes
-data("diva_water_lines_deu") # Rivers
-
-# DWD climate data
-data("dwd_annual_ts_bav") # Annual time series data of whole of Bavaria
-load(system.file("extdata", "dwd_yearmon_rsms_bav_tk4tel.rda", package = "bavDC")) # Gridded monthly climate data
-load(system.file("extdata", "dwd_yearmon_tadnmm_bav_tk4tel.rda", package = "bavDC"))
-load(system.file("extdata", "dwd_yearmon_tadxmm_bav_tk4tel.rda", package = "bavDC"))
-load(system.file("extdata", "dwd_yearmon_tamm_bav_tk4tel.rda", package = "bavDC"))
+# Diva shapefiles for Bolivia
+data("diva_cover_bol") # Land-cover data
+data("diva_pop_bol") # Population data
+data("diva_rails_bol") # Railway tracks
+data("diva_roads_bol") # Roads
+data("diva_water_areas_bol") # Lakes
+data("diva_water_lines_bol") # Rivers
 
 # E-OBS observed climate data
 data("e-obs_elev_ens_0.1deg_bav")
@@ -144,125 +111,70 @@ data("e-obs_tn_ens_spread_0.1deg_bav_yearmon")
 data("e-obs_tx_ens_mean_0.1deg_bav_yearmon")
 data("e-obs_tx_ens_spread_0.1deg_bav_yearmon")
 
-# EBCC data of Bavaria
-data("ebcc_bav")
-
-# EU-DEM elevation & hillshade data
-data("eu_dem_bav_500m")
-data("hillshade_bav_500m")
-
-# EuroLST Land surface temperature
-data("eurolst_bav_tk4tel")
+# DEM elevation & hillshade data
+data("dem_chi_500m")
+data("hillshade_chi_500m")
 
 # EWEMBI daily temperature and precipitation
-data("ewembi_bav")
+data("ewembi_chi")
 
-# EWEMBI daily temperature and precipitation data for the whole of Germany can be extracted from the processNC package (https://github.com/RS-eco/processNC)
+# EWEMBI daily temperature and precipitation data for the whole of Bolivia can be extracted from the processNC package (https://github.com/RS-eco/CDC)
 
-# List daily temperature files for Germany from 1979 till 2016
-ewembi_tas_ger <- list.files(paste0(system.file(package="processNC"), "/extdata"), 
+# List daily temperature files for Bolivia from 1979 till 2016
+ewembi_tas_bol <- list.files(paste0(system.file(package="processNC"), "/extdata"), 
                     pattern="tas.*\\.nc", full.names=T)
 
-# List daily precipitation files for Germany from 1979 till 2016
-ewembi_pr_ger <- list.files(paste0(system.file(package="processNC"), "/extdata"), 
+# List daily precipitation files for Bolivia from 1979 till 2016
+ewembi_pr_bol <- list.files(paste0(system.file(package="processNC"), "/extdata"), 
                     pattern="tas.*\\.nc", full.names=T)
-
-# Forest disturbance data
-data("forest_disturbance_bav_300m")
 
 # GIMMS3g NDVI data
-data("gimms3g_v0_bav")
-data("gimms3g_v1_bav")
+data("gimms3g_v0_chi")
+data("gimms3g_v1_chi")
 
 # Globcover land cover
-data("globcover_bav_tk4tel")
+data("globcover_chi")
 
 # Human footprint
-data("hfp_1993_v3_bav")
-data("hfp_2009_v3_bav")
-
-# Important bird areas
-data("iba_bav")
+data("hfp_1993_v3_chi")
+data("hfp_2009_v3_chi")
 
 # ISIMIP2b climate and land-use
-data("isimip_bio_bav_tk4tel")
-data("isimip_lu_bav_tk4tel")
+data("isimip_bio_bol")
+data("isimip_lu_bol")
 
 # KK09, KK10 data
-data("kk09_bav")
-data("kk10_bav")
+data("kk09_chi")
+data("kk10_chi")
 
 # Lakes & Rivers
-data("lakes_points_bav")
-data("lakes_poly_bav")
-data("rivers_bav")
-
-# Landsystem data
-data("landsystem_bav_tk4tel")
-data("landsystem_bav")
-data("landsystem_perc_bav_tk4tel")
-data("landsystem_perc_bav")
-
-# Merraclim climate
-data("merraclim_2.5m_bav_tk4tel")
-data("merraclim_5m_bav_tk4tel")
-data("merraclim_10m_bav_tk4tel")
+data("lakes_points_chi")
+data("lakes_poly_chi")
+data("rivers_chi")
 
 # MODIS land-cover
-data("modis_lc_bav_tk4tel")
+data("modis_lc_chi")
 
 # MODIS Land surface temperature
-data("modis_lst_bav_tk4tel")
-
-# Naturraeume (from large to small)
-data("ng_geo")
-data("ng_gross")
-data("ng_ssymank")
-data("ng_meynen_schmit")
-data("ng_unter_absp")
-data("ng_abspziele")
+data("modis_lst_chi")
 
 # Protected areas
-data("dist_pa_bav_tk4tel")
-load(system.file("extdata", "pa_bav.rda", package = "bavDC"))
-data("pa_bav_tk4tel")
-
-# Plot coordinates
-data("plot_coords_bav")
-
-# Potential natural vegetation
-data("pnv_bav")
+data("dist_pa_chi")
+data("pa_chi")
 
 # Predicts data
-data("predicts_deu")
-
-# Standardized taxonomy
-data("taxonomyStd")
+data("predicts_bol")
 
 # Tandem-X Forest/Non-forest
-data("tdm_fnf_bav")
+data("tdm_fnf_chi")
 
-# TK25 grid
-data("tk4tel_db")
-data("tk4tel_grid")
-data("tk25_grid")
-
-# Worldclim v1.4
-data("wc1.4_10m_bav_tk4tel")
-data("wc1.4_2.5m_bav_tk4tel")
-data("wc1.4_30s_bav_tk4tel")
-data("wc1.4_5m_bav_tk4tel")
-
-# Worldclim v2.0
-data("wc2.0_10m_bav_tk4tel")
-data("wc2.0_2.5m_bav_tk4tel")
-data("wc2.0_30s_bav_tk4tel")
-data("wc2.0_5m_bav_tk4tel")
+# Worldclim v2.1
+data("wc2.0_30s_chi")
 
 # WFDE5 re-analysis climate data (0.5°)
-data("wfde5_rainf_bav")
-data("wfde5_snowf_bav")
-data("wfde5_tair_bav")
+data("wfde5_rainf_chi")
+data("wfde5_snowf_chi")
+data("wfde5_tair_chi")
 ```
 
 **Note:** The code of how the datasets were created can be found in the [data-raw](https://github.com/MattB-SF/CDC/tree/main/data-raw) folder.

@@ -2,7 +2,6 @@
 #' 
 #' @name CDC package
 #' @aliases CDCpackage
-#' @docType package
 #' @title CDC: Chiquitos Data Cube
 #' @description R package to access various data sources, i.e. elevation, climate and land-use data, for the Chiquitos region in Bolivia. 
 #' @author MattB-SF
@@ -111,14 +110,13 @@ NULL
 NULL
 #'
 #' @docType data
-#' @name wc1.4_30s_bav_tk4tel
-#' @title worldclim data of bavaria
-#' @description Current worldclim temperature, precipitation and bioclim data of Bavaria, Germany
-#' @usage data(wc1.4_30s_bav_tk4tel)
-#' @details Current temperature, precipitation and bioclimatic data of Bavaria, Germany derived from 30 seconds
-#' Worldclim v1.4 and resampled onto the TK4tel grid. Data is derived from interpolations of observed data, 
-#' representative of 1960-1990.
-#' @format A \code{data.frame} with 2268 observation and 69 variables.
+#' @name wc2.1_30s_chi
+#' @title worldclim data of chiquitos
+#' @description Current worldclim temperature, precipitation and bioclim data of Chiquitos, Bolivia
+#' @usage data(wc2.1_30s_chi)
+#' @details Current temperature, precipitation, solar radiation, wind and bioclimatic data of Chiquitos, Bolivia derived 
+#' from 30 seconds Worldclim v2.1. Data is derived from interpolations of observed data representative of xx - xx.
+#' @format A \code{data.frame} with 92600 observation and 93 variables.
 #' @source Cite this dataset as: \itemize{\item Hijmans, R.J., S.E. Cameron, J.L. Parra, P.G. Jones and A. Jarvis, 2005. 
 #' Very high resolution interpolated climate surfaces for global land areas. 
 #' International Journal of Climatology 25: 1965-1978.}

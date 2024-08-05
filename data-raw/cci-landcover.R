@@ -1,6 +1,6 @@
 #' ---
-#' title: "Create CCI data for Bavaria"
-#' author: "RS-eco"
+#' title: "Create CCI data for Chiquitos"
+#' author: "MattB-SF"
 #' ---
 
 rm(list=ls()); gc()
@@ -17,7 +17,7 @@ rm(list=ls()); gc()
 # https://cds.climate.copernicus.eu/cdsapp#!/dataset/satellite-land-cover?tab=form
 
 # Specify file directory
-filedir <- "/home/matt/Documents/LC_CCI/"
+filedir <- "/home/matt/Documents/Wissenschaft/Data/LC_CCI/"
 
 # Define filenames
 years <- 1992:2020
@@ -27,25 +27,27 @@ years <- 1992:2020
 #lapply(filenames, function(x){download.file(paste0("", x), destfile=paste0(filedir, x))})
 
 # Load files
-files <- c(list.files(filedir, pattern=".tif", full.names=T), 
-           list.files(filedir, pattern=".nc", full.names=T))
-dat <- raster::stack(files)
+files1 <- list.files(filedir, pattern=".tif", full.names=T)
+files2 <- list.files(filedir, pattern=".nc", full.names=T)
+dat1 <- terra::rast(files1)
+dat2 <- terra::rast(files2, subds="lccs_class")
+dat <- c(dat1, dat2); rm(dat1, dat2)
 
 # Crop by extent of bavaria
-load("data/bavaria.rda")
-r_cci_bav <- raster::mask(raster::crop(dat, bavaria, snap="out"), sf::st_buffer(bavaria, 10000))
-names(r_cci_bav) <- years
-r_cci_bav
-raster::plot(r_cci_bav[[1]])
-cci_bav <- raster::mask(r_cci_bav, bavaria)
-raster::plot(cci_bav[[1]])
-cci_bav
+load("data/chiquitos.rda")
+r_cci_chi <- terra::mask(terra::crop(dat, chiquitos, snap="out"), sf::st_buffer(chiquitos, 10000))
+names(r_cci_chi) <- years
+r_cci_chi
+raster::plot(r_cci_chi[[1]])
+cci_chi <- raster::mask(r_cci_chi, chiquitos)
+raster::plot(cci_chi[[1]])
+cci_chi
 rm(dat); gc()
 
 # Save to file
 library(dplyr)
 round10 <- function(x, na.rm = FALSE) round(x/10, digits=0)*10
-cci_bav <- as.data.frame(raster::rasterToPoints(cci_bav)) %>% 
+cci_chi <- as.data.frame(cci_chi, xy=TRUE) %>% 
   mutate_at(vars(-c(x,y)), round10) %>%
   mutate_at(vars(-c(x,y)), factor, 
             levels = seq(0,220, by=10), 
@@ -62,38 +64,6 @@ cci_bav <- as.data.frame(raster::rasterToPoints(cci_bav)) %>%
                      "Sparse vegetation (tree, shrub, herbaceous cover) (<15%)", "Tree cover, flooded, fresh or brakish water", 
                      "Tree cover, flooded, saline water", "Shrub or herbaceous cover, flooded, fresh/saline/brakish water",
                      "Urban areas", "Bare areas", "Water bodies", "Permanent snow and ice"))
-colnames(cci_bav) <- c("x", "y", years)
-head(cci_bav)
-save(cci_bav, file="data/cci_bav.rda", compress="xz")
-
-# Re-sample to TK25
-load("data/tk4tel_grid.rda")
-tk4tel_r <- raster::rasterFromXYZ(tk4tel_grid)
-(cci_bav_gk <- raster::projectRaster(r_cci_bav, crs=sp::CRS("+init=epsg:31468")))
-cci_bav_tk4tel <- raster::resample(cci_bav_gk, tk4tel_r, method="ngb")
-cci_bav_tk4tel <- raster::mask(cci_bav_tk4tel, tk4tel_r)
-cci_bav_tk4tel <- as.data.frame(raster::rasterToPoints(cci_bav_tk4tel))
-colnames(cci_bav_tk4tel) <- c("x", "y", years)
-head(cci_bav_tk4tel)
-
-# Define categories
-library(dplyr)
-round10 <- function(x, na.rm = FALSE) round(x/10, digits=0)*10
-cci_bav_tk4tel <- cci_bav_tk4tel %>% mutate_at(vars(-c(x,y)), round10) %>%
-  mutate_at(vars(-c(x,y)), factor, levels = seq(0,220, by=10), 
-            labels=c("No Data", "Cropland, rainfed", "Cropland, irrigated or post-flooding",
-                     "Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)",
-                     "Mosaic natural vegetation (tree, shrub, herbaceous cover) (>50%) / cropland (<50%)",
-                     "Tree cover, broadleaved, evergreen, closed to open (>15%)",
-                     "Tree cover, broadleaved, deciduous, closed to open (>15%)",
-                     "Tree cover, needleleaved, evergreen, closed to open (>15%)",
-                     "Tree cover, needleleaved, deciduous, closed to open (>15%)",
-                     "Tree cover, mixed leaf type (broadleaved and needleleaved)",
-                     "Mosaic tree and shrub (>50%) / herbaceous cover (<50%)",
-                     "Mosaic herbaceous cover (>50%) / tree and shrub (<50%)", "Shrubland", "Grassland", "Lichens and mosses", 
-                     "Sparse vegetation (tree, shrub, herbaceous cover) (<15%)", "Tree cover, flooded, fresh or brakish water", 
-                     "Tree cover, flooded, saline water", "Shrub or herbaceous cover, flooded, fresh/saline/brakish water",
-                     "Urban areas", "Bare areas", "Water bodies", "Permanent snow and ice"))
-
-# Save to file
-save(cci_bav_tk4tel, file="data/cci_bav_tk4tel.rda", compress="xz")
+colnames(cci_chi) <- c("x", "y", years)
+head(cci_chi)
+save(cci_chi, file="data/cci_chi.rda", compress="xz")

@@ -14,7 +14,7 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = T, comment = NA, warning=F, message=F, 
-  eval=T, echo=T, error=F, fig.path="../figures/"
+  eval=F, echo=T, error=F, fig.path="../figures/"
 )
 ```
 
@@ -30,13 +30,13 @@ r <- raster::raster(res=c(0.002777778, 0.002777778), xmn=8.975, xmx=13.84167, ym
 df_area <- as.data.frame(raster::rasterToPoints(raster::area(r))) #km2
 colnames(df_area) <- c("x", "y", "area")
 
-cci_bav$x <- signif(cci_bav$x, digits=5)
-cci_bav$y <- signif(cci_bav$y, digits=5)
+cci_chi$x <- signif(cci_bav$x, digits=5)
+cci_chi$y <- signif(cci_bav$y, digits=5)
 df_area$x <- signif(df_area$x, digits=5)
 df_area$y <- signif(df_area$y, digits=5)
-cci_bav <- left_join(cci_bav, df_area)
+cci_chi <- left_join(cci_bav, df_area)
 
-sum_cci <- cci_bav %>% gather(year, class, -c(x,y,area)) %>%
+sum_cci <- cci_chi %>% gather(year, class, -c(x,y,area)) %>%
   group_by(year, class) %>% summarise(total_area=sum(area, na.rm=T))
 
 sum_cci %>% filter(year == 1992) %>% summarise(area=sum(total_area)) %>% unlist() 

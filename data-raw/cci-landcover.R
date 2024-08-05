@@ -20,7 +20,7 @@ rm(list=ls()); gc()
 filedir <- "/home/matt/Documents/Wissenschaft/Data/LC_CCI/"
 
 # Define filenames
-years <- 1992:2020
+years <- 1992:2022
 #filenames <- paste0("ESACCI-LC-L4-LCCS-Map-300m-P1Y-", years, "-v2.0.7.nc")
 
 # Download files

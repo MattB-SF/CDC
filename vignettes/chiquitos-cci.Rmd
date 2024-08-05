@@ -1,15 +1,31 @@
-## ----setup, include = FALSE---------------------------------------------------
+---
+title: "Land-cover time series of Chiquitos"
+author: "RS-eco"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Land-cover time series of Chiquitos}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = T, comment = NA, warning=F, message=F, 
   eval=T, echo=T, error=F, fig.path="../figures/"
 )
+```
 
-## ----pa-overview, fig.width=6, fig.height=8-----------------------------------
-# Load bavDC & ggplot2 package
-library(bavDC); library(dplyr); library(ggplot2); library(tidyr)
+# Create bar plot of total land-cover of Chiquitos
 
-# Load climate data from bavDC package
-data(cci_bav, package="bavDC")
+```{r pa-overview, fig.width=6, fig.height=8}
+# Load CDC & ggplot2 package
+library(CDC); library(dplyr); library(ggplot2); library(tidyr)
+
+# Load land-cover data from CDC package
+data(cci_chi, package="CDC")
 r <- raster::raster(res=c(0.002777778, 0.002777778), xmn=8.975, xmx=13.84167, ymn=47.26944, ymx=50.56667)
 df_area <- as.data.frame(raster::rasterToPoints(raster::area(r))) #km2
 colnames(df_area) <- c("x", "y", "area")
@@ -35,8 +51,9 @@ sum_cci %>% mutate(perc_area=total_area/65566.1102453413*100) %>%
 #           `2003`, `2004`, `2005`, `2006`, `2007`, `2008`, `2009`, `2010`, `2011`, `2012`, `2013`,
 #           `2014`, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`) %>% 
 #  summarise(total_area=sum(area, na.rm=T))
+```
 
-## ---- fig.width=8, fig.height=6-----------------------------------------------
+```{r, fig.width=8, fig.height=6}
 # IPCC Classes
 
 #10 -40 = Agriculture
@@ -88,12 +105,14 @@ sum_cci2 <- cci_bav %>% gather(year, class, -c(x,y,area)) %>%
 
 sum_cci2 %>% ggplot() + geom_bar(aes(x=year, y=perc_area, fill=class2), stat="identity") + 
   labs(x="Year", y="Land-cover (%)", fill="LC class") + theme_bw()
+```
 
-## ---- fig.height=10, fig.width=8----------------------------------------------
+```{r, fig.height=10, fig.width=8}
 sum_cci2 %>% ggplot(aes(x=year, y=perc_area, group=class2)) + geom_line() + 
   facet_wrap(.~class2, scales="free_y", ncol=1, strip.position = "left") + 
   labs(x="Year", y="", colour="LC class") + theme_bw() + 
   theme(strip.background = element_blank(), strip.text=element_text(size=12, face="bold"),
         strip.placement="outside")
 rm(list=ls()); invisible(gc())
+```
 

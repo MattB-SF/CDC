@@ -1,10 +1,24 @@
-## ----setup, include = FALSE---------------------------------------------------
+---
+title: "Biodiversity of Chiquitos"
+author: "RS-eco"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Biodiversity of Chiquitos}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE, results="asis", echo=F, warning=F, message=F, comment = NA,
   fig.width=8, fig.height=8, fig.path="../figures/"
 )
+```
 
-## ----load_pkgs----------------------------------------------------------------
+```{r load_pkgs}
 library(dplyr)
 library(ggplot2)
 library(patchwork)
@@ -13,12 +27,20 @@ library(sf)
 
 # Define standard colour scheme
 bluewhitered <- colorRampPalette(c("#009392","#39b185","#9ccb86","#e9e29c","#eeb479","#e88471","#cf597e"))(255)
+```
 
-## -----------------------------------------------------------------------------
-# Load shapefile of Bavaria
-data("bavaria", package="bavDC")
+```{r, eval=F}
+# Load shapefile of Chiquitos
+data("chiquitos", package="CDC")
+```
 
-## ---- fig.width=10, fig.height=5----------------------------------------------
+# General information
+
+# Data Analysis
+
+Here, I perform a first analysis of different biodiversity data for Chiquitos using IUCN range data.
+
+```{r, fig.width=10, fig.height=5, eval=F}
 data("amphibians_bav", package="bavDC")
 data("bird_bav", package="bavDC")
 data("gard_reptiles_bav", package="bavDC")
@@ -77,4 +99,4 @@ p6 <- gard_rep %>% ggplot() + geom_tile(aes(x=x,y=y,fill=layer)) +
 p1 + p2 + p3 + 
   p4 + p5 + p6
 rm(list=ls()); invisible(gc())
-
+```

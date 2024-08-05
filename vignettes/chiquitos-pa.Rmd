@@ -1,10 +1,10 @@
 ---
-title: "Protected Areas of Bavaria"
+title: "Protected Areas of Chiquitos"
 author: "RS-eco"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Protected Areas of Bavaria}
+  %\VignetteIndexEntry{Protected Areas of Chiquitos}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -20,25 +20,25 @@ knitr::opts_chunk$set(
 
 # Create map of gridded data
 
-```{r pa-overview, fig.width=6, fig.height=7}
-# Load bavDC & ggplot2 package
-library(bavDC); library(dplyr); library(sf); library(ggplot2); library(tidyr)
+```{r pa-overview, fig.width=6, fig.height=7, eval=F}
+# Load CDC & ggplot2 package
+library(CDC); library(dplyr); library(sf); library(ggplot2); library(tidyr)
 
 # Create colour scheme
 redblue <- rev(colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", 
                                   "yellow", "#FF7F00", "red", "#7F0000"))(255))
 
 # Load pa data from bavDC package
-data(pa_bav_tk4tel, package="bavDC")
-unique(pa_bav_tk4tel$iucn_cat)
-pa_bav_tk4tel$iucn_cat <- factor(pa_bav_tk4tel$iucn_cat, 
+data(pa_chi, package="CDC")
+unique(pa_chi$iucn_cat)
+pa_chi$iucn_cat <- factor(pa_chi$iucn_cat, 
                                  levels=c("I", "II", "III", "IV", "V", "Not.Assigned", 
                                           "Not.Applicable", "Not.Reported", "Total"), 
                                  labels=c("I", "II", "III", "IV", "V", "Not Assigned", 
                                           "Not Applicable", "Not Reported", "Total"))
 
 # Plot percentage cover by iucn cat
-pa_bav_tk4tel %>% filter(var == "perc_cov") %>% 
+pa_chi %>% filter(var == "perc_cov") %>% 
   ggplot() + geom_tile(aes(x=x, y=y, fill=value)) + 
   facet_wrap(iucn_cat ~.) + coord_sf(ndiscr=0) + 
   theme_classic() + labs(x="", y="") + 
@@ -48,7 +48,7 @@ pa_bav_tk4tel %>% filter(var == "perc_cov") %>%
         legend.position=c(0.85,0.15))
 
 # Plot number of PAs by iucn cat
-pa_bav_tk4tel %>% filter(var == "no_pa") %>% 
+pa_chi %>% filter(var == "no_pa") %>% 
   ggplot() + geom_tile(aes(x=x, y=y, fill=value)) + 
   facet_wrap(iucn_cat ~.) + coord_sf(ndiscr=0) + 
   theme_classic() + labs(x="", y="") + 
@@ -58,7 +58,7 @@ pa_bav_tk4tel %>% filter(var == "no_pa") %>%
         legend.position=c(0.85,0.15))
 
 # Plot minimum year by iucn cat
-pa_bav_tk4tel %>% filter(var == "min_year") %>% 
+pa_chi %>% filter(var == "min_year") %>% 
   ggplot() + geom_tile(aes(x=x, y=y, fill=value)) + 
   facet_wrap(iucn_cat ~.) + coord_sf(ndiscr=0) + 
   theme_classic() + labs(x="", y="") + 
@@ -70,12 +70,12 @@ pa_bav_tk4tel %>% filter(var == "min_year") %>%
 
 # Create correlation matrix of PA variables
 
-```{r pa-cormat, fig.width=6, fig.height=5}
-data("dist_pa_bav_tk4tel")
-dist_pa_bav_tk4tel$value <- dist_pa_bav_tk4tel$dist
-dist_pa_bav_tk4tel$var <- "dist"
+```{r pa-cormat, fig.width=6, fig.height=5, eval=F}
+data("dist_pa_chi")
+dist_pa_chi$value <- dist_pa_chi$dist
+dist_pa_chi$var <- "dist"
 
-dat <- pa_bav_tk4tel %>% bind_rows(dist_pa_bav_tk4tel %>% dplyr::select(-dist)) %>% 
+dat <- pa_chi %>% bind_rows(dist_pa_chi %>% dplyr::select(-dist)) %>% 
   tidyr::spread(var, value) %>% 
   mutate(iucn_cat2 = factor(.$iucn_cat, 
                             levels=c("Ia", "Ib", "II", "III", "IV", "V", "VI", 
@@ -121,53 +121,52 @@ ggstatsplot::ggcorrmat(
 
 **Table 1.** Minimum, mean and maximum percentage cover protected under the different IUCN categories in Bavaria.
 
-```{r pa-summary_table, asis="TRUE"}
+```{r pa-summary_table, asis="TRUE", eval=F}
 # Load bavarian PA data
-data(pa_bav_tk4tel)
-pa_bav_tk4tel$iucn_cat <- factor(pa_bav_tk4tel$iucn_cat, 
+data(pa_chi)
+pa_chi$iucn_cat <- factor(pa_chi$iucn_cat, 
                                  levels=c("I", "II", "III", "IV", "V", "Not.Assigned", 
                                           "Not.Applicable", "Not.Reported", "Total"), 
                                  labels=c("I", "II", "III", "IV", "V", "Not Assigned", 
                                           "Not Applicable", "Not Reported", "Total"))
 
-pa_bav_tk4tel <- pa_bav_tk4tel %>% filter(var == "perc_cov") %>% dplyr::select(-var)
-colnames(pa_bav_tk4tel) <- c("x", "y", "IUCN Category", "perc_cov")
-pa_bav_tk4tel %>% group_by(`IUCN Category`) %>% 
+pa_chi <- pa_chi %>% filter(var == "perc_cov") %>% dplyr::select(-var)
+colnames(pa_chi) <- c("x", "y", "IUCN Category", "perc_cov")
+pa_chi %>% group_by(`IUCN Category`) %>% 
   mutate(perc_cov = tidyr::replace_na(perc_cov, 0)) %>%
   summarise(`Minimum`=min(perc_cov), `Mean`=mean(perc_cov), `Max`=max(perc_cov)) %>% 
   knitr::kable(format="pipe")
 ```
 
-```{r pa-dist, fig.width=6, fig.height=6}
+```{r pa-dist, fig.width=6, fig.height=6, eval=F}
 library(scico); library(ggthemes)
-bavaria_gk <- sf::st_transform(bavaria, crs=31468)
-data("dist_pa_bav_tk4tel")
-dist_pa_bav_tk4tel %>% filter(iucn_cat == "Total") %>% 
+data("dist_pa_chi")
+dist_pa_chi %>% filter(iucn_cat == "Total") %>% 
   ggplot() + geom_tile(aes(x=x, y=y, fill=dist)) + 
   geom_sf(data=bavaria_gk, colour="black", fill=NA) + coord_sf() + 
   scale_fill_scico(name="PA distance", palette="roma") + theme_map() + 
   theme(legend.position = c(0.1,0.23))
 ```
 
-**Figure 4.** Distance to protected area grid cells in Bavaria. **Note:** This approach currently does not consider the distance to surrounding protected areas outside of Bavaria.
+**Figure 4.** Distance to protected area grid cells in Chiquitos. **Note:** This approach currently does not consider the distance to surrounding protected areas outside of Chiquitos.
 
 # Create maps of PA shapefile
 
 Simple map of all designations using ggplot2
 
-```{r pa-map_eng, fig.width=8, fig.height=6}
-data("pa_bav")
-ggplot() + geom_sf(data=pa_bav, aes(fill=DESIG_ENG), col=NA) +
+```{r pa-map_eng, fig.width=8, fig.height=6, eval=F}
+data("pa_chi")
+ggplot() + geom_sf(data=pa_chi, aes(fill=DESIG_ENG), col=NA) +
   geom_sf(data=bavaria_gk, fill=NA) + theme_minimal() 
 ```
 
 Map of all designations apart from landscape protection area using base plot
 
-```{r pa-map_eng_sub, fig.width=7, fig.height=8}
-pa_bav$DESIG_ENG <- factor(pa_bav$DESIG_ENG)
-levels(pa_bav$DESIG_ENG)[5] <- "Ramsar Site"
-levels(pa_bav$DESIG_ENG)[6] <- "Site of Community Importance"
-levels(pa_bav$DESIG_ENG)[7] <- "Special Protection Area"
+```{r pa-map_eng_sub, fig.width=7, fig.height=8, eval=F}
+pa_chi$DESIG_ENG <- factor(pa_chi$DESIG_ENG)
+levels(pa_chi$DESIG_ENG)[5] <- "Ramsar Site"
+levels(pa_chi$DESIG_ENG)[6] <- "Site of Community Importance"
+levels(pa_chi$DESIG_ENG)[7] <- "Special Protection Area"
 
 # names of the areas to plot and their colour 
 my_cols = data.frame(Names=c("Special Protection Area", #(Birds Directive)"
@@ -196,27 +195,4 @@ plot(sf::st_geometry(bavaria_gk), add=T)
 # the areas some-times overwrite the borders, that's not very pretty
 legend("bottom", legend = c(my_cols[,1]), cex =0.8, fill=my_cols[,2], 
        bty="n", xpd = T, inset = c(0,-0.1))
-```
-
-Same map as above, but with German legend
-
-```{r pa-map_deu_sub, fig.width=8, fig.height=8}
-#For German names change legend to names_D
-names_D = c("Vogelschutzgebiet", "FFH-Gebiet", "Naturschutzgebiet", "Nationalpark",
-            "Ramsar Schutzgebiet")
-
-par(bg="transparent")
-#plot bavaria  
-plot(sf::st_geometry(bavaria_gk))
-#loop through areas and plot them
-for(i in 1:length(my_cols[,1])){
-  pa_bav %>% filter(DESIG_ENG == my_cols[i,1]) %>% 
-    st_geometry() %>% plot(col=my_cols[i,2], border=F, add=T)
-}
-#plot bavaria again
-plot(sf::st_geometry(bavaria_gk), add=T) 
-# the areas some-times overwrite the borders, that's not very pretty
-legend("left", legend = names_D, cex = 1.2, fill=my_cols[,2], 
-       bty="n", xpd = T, inset = c(-0.1,-0.1))
-rm(list=ls()); invisible(gc())
 ```

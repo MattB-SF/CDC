@@ -8,7 +8,7 @@
 A \code{data.frame} with 70552 observations and 5 variables.
 }
 \usage{
-data(bav_pop_1km)
+data(chi_pop_1km)
 }
 \description{
 Population density in Chiquitos, Bolivia

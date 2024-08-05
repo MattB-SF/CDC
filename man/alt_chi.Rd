@@ -11,13 +11,13 @@ A \code{data.frame} with 2268 observations and 11 variables.
 This data has been obtained from: \itemize{\item \url{https://gdex.cr.usgs.gov/gdex/}}
 }
 \usage{
-data(alt_bav_tk4tel)
+data(alt_chi)
 }
 \description{
-NASA SRTM v3.0 elevation data of Bavaria, Germany
+NASA SRTM v3.0 elevation data of Chiquitos, Bolivia
 }
 \details{
-Elevation and terrain data of Bavaria, Germany derived from NASA SRTM 3 Arc Sec v3.0 data and 
+Elevation and terrain data of Chiquitos, Bolivia derived from NASA SRTM 3 Arc Sec v3.0 data and 
 resampled onto the TK4tel grid. Terrain variables were calculated using the raster::terrain() function. 
 Data includes information on altitude, aspect, slope, hillshade (calculated from slope and aspect), 
 Terrain Ruggedness Index (tri), Topographic Position Index (tpi), 

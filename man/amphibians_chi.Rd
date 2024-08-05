@@ -12,7 +12,7 @@ This data has been obtained from:
 \itemize{\item \url{https://www.iucnredlist.org/resources/spatial-data-download}}
 }
 \usage{
-data(amphibians_bav)
+data(amphibians_chi)
 }
 \description{
 IUCN Amphibian ranges with Chiquitos, Bolivia

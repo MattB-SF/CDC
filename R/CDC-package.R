@@ -11,9 +11,9 @@ NULL
 #' @docType data
 #' @name alt_chi
 #' @title altitudinal and terrain data of Chiquitos
-#' @description NASA SRTM v3.0 elevation data of Bavaria, Germany
-#' @usage data(alt_bav_tk4tel)
-#' @details Elevation and terrain data of Bavaria, Germany derived from NASA SRTM 3 Arc Sec v3.0 data and 
+#' @description NASA SRTM v3.0 elevation data of Chiquitos, Bolivia
+#' @usage data(alt_chi)
+#' @details Elevation and terrain data of Chiquitos, Bolivia derived from NASA SRTM 3 Arc Sec v3.0 data and 
 #' resampled onto the TK4tel grid. Terrain variables were calculated using the raster::terrain() function. 
 #' Data includes information on altitude, aspect, slope, hillshade (calculated from slope and aspect), 
 #' Terrain Ruggedness Index (tri), Topographic Position Index (tpi), 
@@ -26,7 +26,7 @@ NULL
 #' @name amphibians_chi
 #' @title amphibian range maps for the extent of Chiquitos
 #' @description  IUCN Amphibian ranges with Chiquitos, Bolivia
-#' @usage data(amphibians_bav)
+#' @usage data(amphibians_chi)
 #' @details shapefiles of the global IUCN ranges of all amphibian species that intersect with the extent of Chiquitos 
 #' @format A \code{data.frame} with 23 observations and 26 variables.
 #' @source This data has been obtained from: 
@@ -72,7 +72,7 @@ NULL
 #' @name chi_pop_1km
 #' @title Population density of Chiquitos
 #' @description  Population density in Chiquitos, Bolivia
-#' @usage data(bav_pop_1km)
+#' @usage data(chi_pop_1km)
 #' @details Population density of Chiquitos at a resolution of 1km2
 #' @format A \code{data.frame} with 70552 observations and 5 variables.
 NULL
